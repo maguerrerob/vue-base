@@ -1,17 +1,14 @@
 <template>
   <div class="container">
     <div class="row">
-      <header class="col-12">
-        <h1>Plantilla para proyectos</h1>
-        <p>Este repositorio sirve como punto de partida para los proyectos donde se use Bootstrap y SASS.</p>
-      </header>
+      <Carrusel></Carrusel>
     </div>
-    </div>
+  </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-
+import Carrusel from "./Carrusel.vue"
 
 </script>
 

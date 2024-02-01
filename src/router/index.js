@@ -3,8 +3,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // Import your components
 import Home from '@/components/Home.vue';
-import Component1 from '@/components/Component1.vue';
-import GetApi from '@/components/GetApi.vue';
+import Buscador from '@/components/Buscador.vue';
+import Film from '@/components/Film.vue';
+import Watchlist from '@/components/Watchlist.vue';
+import Carrusel from '@/components/Carrusel.vue';
 
 
 // Define your routes
@@ -17,14 +19,24 @@ const router = createRouter({
       component: Home
     },
     {
-      path: '/component1',
-      name: 'component1',
-      component: Component1
+      path: '/Buscador',
+      name: 'Buscador',
+      component: Buscador
     },
     {
-      path: '/getapi',
-      name: 'getapi',
-      component: GetApi
+      path: '/Carrusel',
+      name: 'Carrusel',
+      component: Carrusel
+    },
+    {
+      path: '/Watchlist',
+      name: 'Watchlist',
+      component: Watchlist
+    },
+    {
+      path: '/Watchlist',
+      name: 'Watchlist',
+      component: Watchlist
     }
   ]
 })
