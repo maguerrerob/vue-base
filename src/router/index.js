@@ -24,6 +24,11 @@ const router = createRouter({
       component: Buscador
     },
     {
+      path: '/Film',
+      name: 'Film',
+      component: Film
+    },
+    {
       path: '/Carrusel',
       name: 'Carrusel',
       component: Carrusel

@@ -1,6 +1,26 @@
 <template>
-    <div class="carrusel">
-        <img id="movieImage" src="" alt="Movie Image">
+    <div v-for="movie in movies">
+        <h1>{{ movie.backdrop_path }}</h1>
+    </div>
+    <div id="carouselExampleIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" v-for="movie in movies">
+                <img :src="movie.backdrop_path" class="d-block w-100" alt="...">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 </template>
 
@@ -15,18 +35,12 @@
             }
         })
         .then(response => response.json())
-        .then(data => movies.value = data.results)
+        .then(data => movies.value = data.results.slice(0,3))
     }
-    const currentIndex = ref(0);
-    const movieImage = ref(document.getElementById('movieImage'));
-
-    const currentImage = computed(() => movies[currentIndex.value]);
 
     onMounted(() => {
-        setInterval(() => {
-            currentIndex.value = (currentIndex.value + 1) % movies.length;
-        }, 5000);
-    });
+        getMoviesCarruselApi();
+    })
 </script>
 
 <style scoped>

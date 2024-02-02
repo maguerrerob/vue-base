@@ -1,7 +1,11 @@
 <template>
+  <p>wsdwdwd</p>
+  <Carrusel></Carrusel>
   <div class="container">
     <div class="row">
-      <Carrusel></Carrusel>
+        <div class="col-10"> 
+          
+        </div>
     </div>
   </div>
 </template>
