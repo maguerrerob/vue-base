@@ -1,4 +1,5 @@
 <template>
+    <div>helooooo</div>
     <div v-for="movie in movies">
         <h1>{{ movie.backdrop_path }}</h1>
     </div>
