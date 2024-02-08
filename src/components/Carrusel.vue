@@ -18,7 +18,7 @@
 
 <script setup>
     import { ref, onMounted } from 'vue';
-    const bearerToken = ref('41de32836aa217222959710aa4bfa656')
+    const bearerToken = ref('eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MWRlMzI4MzZhYTIxNzIyMjk1OTcxMGFhNGJmYTY1NiIsInN1YiI6IjY1YTkxYmJjNTVjMWY0MDEyODg5ZWE1NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.I7FRPNfYWFgq6giDmM43GaiYUaLSYyLM-6m7kJywMd0')
     const movies = ref([])
     const getMoviesCarruselApi = () => {
         fetch('https://api.themoviedb.org/3/movie/popular', {

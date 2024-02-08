@@ -1,21 +1,19 @@
 <template>
   <Carrusel></Carrusel>
   <h1 class="mt-5">Top Rated</h1>
-  <div class="container">
-    <div class="row">
-      <div class="col-3" v-for="movie in movies" :key="movie.id">
-        <img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="">
-        <p>aaaa</p>
-      </div>
+
+  <div class="row">
+    <div class="col-4" v-for="movie in moviesFiltradas" :key="movie.id">
+      <img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="">
     </div>
   </div>
 </template>
 
 <script setup>
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted, computed } from 'vue'
   import Carrusel from "./Carrusel.vue"
 
-  const bearerToken = ref('41de32836aa217222959710aa4bfa656')
+  const bearerToken = ref('eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MWRlMzI4MzZhYTIxNzIyMjk1OTcxMGFhNGJmYTY1NiIsInN1YiI6IjY1YTkxYmJjNTVjMWY0MDEyODg5ZWE1NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.I7FRPNfYWFgq6giDmM43GaiYUaLSYyLM-6m7kJywMd0')
   const movies = ref([])
   const getMoviesTopRated = () => {
         fetch('https://api.themoviedb.org/3/movie/top_rated', {
@@ -29,6 +27,10 @@
 
   onMounted(() => {
     getMoviesTopRated();
+  })
+
+  const moviesFiltradas = computed(() => {
+    return movies.value.filter(movie => movie.vote_average > 8.55)
   })
 
 </script>
