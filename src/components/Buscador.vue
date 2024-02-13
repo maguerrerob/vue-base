@@ -1,15 +1,23 @@
+<!-- router.push -->
 <template>
     <h1>Búsqueda de películas por título</h1>
-    <input type="text" placeholder="Filtrar por título" @keyup="">
+    <input type="search" placeholder="Filtrar por título" v-model="str">
+    <button @click="$router.push('/Buscador?cadena=' + str)">Enviar</button>
+    
     <input type="range">
-
+    <p>{{ route.query.cadena }}</p>
 </template>
 
 <script setup>
     import { ref, onMounted, computed } from 'vue'
+    import { useRoute } from 'vue-router';
+
+    const route = useRoute();
+    const str = ref("")
     
     const bearerToken = ref('eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MWRlMzI4MzZhYTIxNzIyMjk1OTcxMGFhNGJmYTY1NiIsInN1YiI6IjY1YTkxYmJjNTVjMWY0MDEyODg5ZWE1NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.I7FRPNfYWFgq6giDmM43GaiYUaLSYyLM-6m7kJywMd0')
     const movies = ref([])
+    const orderedMovies = ref([])
     const getMoviesPopular = () => {
             fetch('https://api.themoviedb.org/3/movie/popular', {
                 headers: {
@@ -19,19 +27,21 @@
             .then(response => response.json())
             .then(data => {
                 movies.value = data.results
-                orderedResults = data.results
+                orderedMovies = data.results
             })
         }
 
     const filter = () => {
-        orderedResults.value = results.value.filter(results => {
-            return results.vote_average
+        orderedMovies.value = results.value.filter(results => {
+            return results.title.toLowerCase().includes(titleFilter.value.toLowerCase())
         })
     }
 
     onMounted(() => {
         getMoviesPopular();
     })
+
+
 </script>
 
 <style scoped>
