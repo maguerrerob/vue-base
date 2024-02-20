@@ -1,8 +1,8 @@
 <template>
-    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+    <div id="carouselExampleInterval" class="carousel slide w-75 mx-auto" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active" data-bs-interval="10000" v-for="movie in movies" :key="movie.id">
-                <img :src="'https://image.tmdb.org/t/p/w780' + movie.backdrop_path" class="d-block w-100 imagencarrusel" alt="">
+                <img :src="'https://image.tmdb.org/t/p/w780' + movie.backdrop_path" class="d-block w-100 rounded-3 mt-3" alt="...">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
