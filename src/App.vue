@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
+  import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
@@ -22,9 +22,6 @@ import { RouterLink, RouterView } from "vue-router";
               <a class="nav-link"><RouterLink to="/">Home</RouterLink></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link"><RouterLink to="/Buscador">Buscador</RouterLink></a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link"><RouterLink to="/Watchlist">Watchlist</RouterLink></a>
             </li>
             <li class="nav-item">
@@ -42,10 +39,10 @@ import { RouterLink, RouterView } from "vue-router";
               </ul>
             </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+          <div class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Buscar Película" aria-label="Search" v-model="str">
+            <button class="btn btn-outline-success" @click="$router.push('/Buscador?cadena=' + str)">Search</button>
+          </div>
         </div>
       </div>
     </nav>
