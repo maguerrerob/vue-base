@@ -25,7 +25,7 @@
     import { useRoute } from 'vue-router';
 
     const route = useRoute();
-    const cadena = router.currentRoute.value.query.cadena
+    const cadena = route.currentRoute.value.query.cadena
     
     const bearerToken = ref('eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MWRlMzI4MzZhYTIxNzIyMjk1OTcxMGFhNGJmYTY1NiIsInN1YiI6IjY1YTkxYmJjNTVjMWY0MDEyODg5ZWE1NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.I7FRPNfYWFgq6giDmM43GaiYUaLSYyLM-6m7kJywMd0')
     const movies = ref([])
