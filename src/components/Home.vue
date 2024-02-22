@@ -7,7 +7,7 @@
         <div class="card mb-3">
           <img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" class="col-3 card-img-top img-fluid">
           <span class="position-absolute top-0 start-100 translate-middle d-inline-block rounded-circle bg-success text-white p-1">
-            {{ (movie.vote_average * 10).toFixed(2) }}
+            {{ (movie.vote_average).toFixed(2) }}
             <span class="visually-hidden">unread messages</span>
           </span>
           <div class="card-body">
