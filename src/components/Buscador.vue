@@ -1,7 +1,6 @@
 <!-- router.push -->
 <template>
     <input type="range" class="form-range" id="customRange1" min="0" max="10" v-model="inputRange"><span>{{ inputRange }}</span>
-    <p>{{ perro }}</p>
     <h3>Resultado por: <span>{{ route.query.cadena }}</span></h3>
     <div class="row">
       <div class="col-3" v-for="movie in orderMovies" :key="movie.id">
@@ -13,7 +12,8 @@
           </span>
           <div class="card-body">
             <h5 class="card-title">{{ movie.title }}</h5>
-            <p class="card-text">{{ movie.overview.slice(0, 200) + "..." }}</p>
+            <p class="card-text">Fecha de salida: <span class="text-success">{{ movie.release_date }}</span></p>
+            <button type="button" @click="addWatchlist" class="btn btn-outline-primary" id="mybutton">Añadir a watchlist</button>
           </div>
         </div>
       </div>
@@ -31,9 +31,10 @@
     const movies = ref([])
     const copymovies = ref([])
     const inputRange = ref(0)
+    
 
     const getMoviesBuscador = () => {
-            fetch('https://api.themoviedb.org/3/search/movie?query='+route.query.cadena+'}&include_adult=false&language=en-US&page=1', {
+            fetch('https://api.themoviedb.org/3/search/movie?query='+route.query.cadena+'}&include_adult=false&language=es&page=1', {
                 headers: {
                     'accept': 'application/json',
                     'Authorization': 'Bearer ' + bearerToken.value
@@ -46,8 +47,13 @@
             })
         }
 
+    const compararFechas = (a,b) => {
+        return new Date(a) - new Date(b)
+    }
+
     const orderMovies = computed(() => {
         copymovies.value = movies.value.slice()
+        copymovies.value.sort(compararFechas)
         return copymovies.value.filter((movie) => movie.vote_average >= inputRange.value)
     })
 
@@ -58,6 +64,8 @@
     onUpdated(() => {
         getMoviesBuscador();
     })
+
+    
 
 </script>
 
