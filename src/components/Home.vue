@@ -10,7 +10,7 @@
             <span class="visually-hidden">unread messages</span>
           </span>
           <div class="card-body">
-            <a><h5 class="card-title">{{ movie.title }}</h5></a>
+            <a :href="'/Movie/${movie.id}'"><h5 class="card-title">{{ movie.title }}</h5></a>
             <p class="card-text">Fecha de salida: <span class="text-success">{{ movie.release_date }}</span></p>
             <button type="button" @click="addWatchlist" class="btn btn-outline-primary" id="mybutton">Añadir a watchlist</button>
           </div>
@@ -60,6 +60,8 @@
     .then(response => response.json())
     .then(data => movies.value = data.results)
   }
+
+
 
 </script>
 

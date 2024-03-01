@@ -7,7 +7,7 @@ import Buscador from '@/components/Buscador.vue';
 import Film from '@/components/Film.vue';
 import Watchlist from '@/components/Watchlist.vue';
 import Carrusel from '@/components/Carrusel.vue';
-// import Movie from '@/component/Movie.vue'
+import Movie from '@/component/Movie.vue';
 
 
 // Define your routes
@@ -16,7 +16,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'home/:id',
       component: Home
     },
     {
@@ -39,11 +39,11 @@ const router = createRouter({
       name: 'Watchlist',
       component: Watchlist
     },
-    // {
-    //   path: '/Movie/',
-    //   name: 'Movie',
-    //   component: Movie
-    // }
+    {
+      path: '/Movie/:id?',
+      name: 'Movie',
+      component: Movie
+    }
   ]
 })
 // Create the router instance
