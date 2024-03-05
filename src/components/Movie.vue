@@ -13,11 +13,11 @@
 <script>
   import { ref, onMounted, onUnmounted } from 'vue';
 
-  const id = ref(null);
+  // const id = ref(null);
 
-  onUnmountednMounted(() => {
-    id.value = $route.params.id;
-  });
+  // onUnmountednMounted(() => {
+  //   id.value = $route.params.id;
+  // });
 
 
 </script>

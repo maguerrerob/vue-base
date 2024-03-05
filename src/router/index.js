@@ -7,7 +7,7 @@ import Buscador from '@/components/Buscador.vue';
 import Film from '@/components/Film.vue';
 import Watchlist from '@/components/Watchlist.vue';
 import Carrusel from '@/components/Carrusel.vue';
-import Movie from '@/component/Movie.vue';
+import Movie from '@/components/Movie.vue';
 
 
 // Define your routes

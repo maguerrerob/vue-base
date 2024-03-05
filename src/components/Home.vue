@@ -26,11 +26,18 @@
   const bearerToken = ref('eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MWRlMzI4MzZhYTIxNzIyMjk1OTcxMGFhNGJmYTY1NiIsInN1YiI6IjY1YTkxYmJjNTVjMWY0MDEyODg5ZWE1NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.I7FRPNfYWFgq6giDmM43GaiYUaLSYyLM-6m7kJywMd0')
   const movies = ref([])
   const getMoviesTopRated = () => {
-        fetch('https://api.themoviedb.org/3/movie/top_rated?language=es&page=1', {
+    console.log(movies.id)
+
+        fetch('https://api.themoviedb.org/3/account/20931000/watchlist', {
             headers: {
               'accept': 'application/json',
               'Authorization': 'Bearer ' + bearerToken.value
-            }
+            },
+          body: JSON.stringify({
+            media_type: 'movie',
+            media_id: movies.id,
+            watchlist: true
+          })
         })
         .then(response => response.json())
         .then(data => movies.value = data.results)
