@@ -13,9 +13,9 @@
                         <p class="card-text">Fecha de salida: <span class="text-success">{{ movie.release_date }}</span></p>
                         <p id="genero">Género</p>
                         <ul>
-                            <li v-for="genre in movie.genres" :key="genre.id">{{ genre.name }}</li>
+                            <li v-for="genreId in movie.genre_ids" :key="genreId">{{ genres.find(genre => genre.id === genreId).name }}</li>
                         </ul>
-                        <button type="button" @click="delWatchlist" class="btn btn-outline-primary" id="mybutton">Remove</button><span></span>
+                        <button type="button" @click="delWatchlist(movie.id)" class="btn btn-outline-primary mb-3" id="mybutton">Borrar</button><span></span>
                     </div>
                 </div>
                 <span class="position-absolute top-0 start-100 translate-middle d-inline-block rounded-circle bg-success text-white p-1">
@@ -31,8 +31,9 @@
     import { ref, onMounted} from 'vue'
 
     const bearerToken = ref('eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MWRlMzI4MzZhYTIxNzIyMjk1OTcxMGFhNGJmYTY1NiIsInN1YiI6IjY1YTkxYmJjNTVjMWY0MDEyODg5ZWE1NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.I7FRPNfYWFgq6giDmM43GaiYUaLSYyLM-6m7kJywMd0')
-
     const watchlist = ref([])
+    const genres = ref([]);
+
     const getMoviesWatchlist = () => {
         fetch('https://api.themoviedb.org/3/account/20931000/watchlist/movies?language=es-US&page=1&sort_by=created_at.asc', {
             headers: {
@@ -41,102 +42,49 @@
             }
         })
         .then(response => response.json())
-        .then(data => watchlist.value = data.results)
+        .then(data => {
+            watchlist.value = data.results;
+            // Obtenemos los géneros
+            fetch('https://api.themoviedb.org/3/genre/movie/list?language=es-US', {
+                headers: {
+                'accept': 'application/json',
+                'Authorization': 'Bearer ' + bearerToken.value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                genres.value = data.genres;
+            })
+        })
     }
 
     onMounted(() => {
         getMoviesWatchlist();
     })
 
-    const delWatchlist = () => {
-
+    function delWatchlist(movieId){
+        fetch(`https://api.themoviedb.org/3/account/20931000/watchlist`, {
+            method: 'POST',
+            headers: {
+                accept: 'application/json',
+                'content-type': 'application/json',
+                Authorization: 'Bearer ' + bearerToken.value
+            },
+            body: JSON.stringify({media_type: 'movie', media_id: movieId, watchlist: false})
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response);
+            window.location.reload();
+        })
+        .catch(err => console.error(err));
     }
 
-    const genres: ref([
-        {
-        "id": 28,
-        "name": "Action"
-        },
-        {
-        "id": 12,
-        "name": "Adventure"
-        },
-        {
-        "id": 16,
-        "name": "Animation"
-        },
-        {
-        "id": 35,
-        "name": "Comedy"
-        },
-        {
-        "id": 80,
-        "name": "Crime"
-        },
-        {
-        "id": 99,
-        "name": "Documentary"
-        },
-        {
-        "id": 18,
-        "name": "Drama"
-        },
-        {
-        "id": 10751,
-        "name": "Family"
-        },
-        {
-        "id": 14,
-        "name": "Fantasy"
-        },
-        {
-        "id": 36,
-        "name": "History"
-        },
-        {
-        "id": 27,
-        "name": "Horror"
-        },
-        {
-        "id": 10402,
-        "name": "Music"
-        },
-        {
-        "id": 9648,
-        "name": "Mystery"
-        },
-        {
-        "id": 10749,
-        "name": "Romance"
-        },
-        {
-        "id": 878,
-        "name": "Science Fiction"
-        },
-        {
-        "id": 10770,
-        "name": "TV Movie"
-        },
-        {
-        "id": 53,
-        "name": "Thriller"
-        },
-        {
-        "id": 10752,
-        "name": "War"
-        },
-        {
-        "id": 37,
-        "name": "Western"
-        }
-    ])
+
 </script>
 
 <style lang="scss" scoped>
-    #mybutton{
-        position: absolute;
-        top: 83%;
-    }
+    
 
     #genero{
         font-weight: bold;

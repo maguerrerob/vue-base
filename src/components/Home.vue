@@ -10,9 +10,10 @@
             <span class="visually-hidden">unread messages</span>
           </span>
           <div class="card-body">
-            <a :href="'/Movie/${movie.id}'"><h5 class="card-title">{{ movie.title }}</h5></a>
+            <h5 class="card-title">{{ movie.title }}</h5>
             <p class="card-text">Fecha de salida: <span class="text-success">{{ movie.release_date }}</span></p>
-            <button type="button" @click="addWatchlist" class="btn btn-outline-primary" id="mybutton">Añadir a watchlist</button>
+            <button type="button" @click="addWatchlist(movie.id)" class="btn btn-outline-primary" id="mybutton">Añadir a watchlist</button>
+            <router-link :to="{ name: 'Movie', params: { id: movie.id }}" class="btn btn-primary">Detalles</router-link>
           </div>
         </div>
       </div>
@@ -25,19 +26,14 @@
 
   const bearerToken = ref('eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MWRlMzI4MzZhYTIxNzIyMjk1OTcxMGFhNGJmYTY1NiIsInN1YiI6IjY1YTkxYmJjNTVjMWY0MDEyODg5ZWE1NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.I7FRPNfYWFgq6giDmM43GaiYUaLSYyLM-6m7kJywMd0')
   const movies = ref([])
-  const getMoviesTopRated = () => {
-    console.log(movies.id)
 
-        fetch('https://api.themoviedb.org/3/account/20931000/watchlist', {
+  function getMoviesTopRated(){
+        fetch(`https://api.themoviedb.org/3/movie/top_rated?language=es-US&page=1`, {
+            method: 'GET',
             headers: {
               'accept': 'application/json',
               'Authorization': 'Bearer ' + bearerToken.value
             },
-          body: JSON.stringify({
-            media_type: 'movie',
-            media_id: movies.id,
-            watchlist: true
-          })
         })
         .then(response => response.json())
         .then(data => movies.value = data.results)
@@ -51,24 +47,29 @@
     return movies.value.filter(movie => movie.vote_average > 8.55)
   })
 
-  const addWatchlist = () => {
-    fetch('https://api.themoviedb.org/3/account/20931000/watchlist', {
-      method: 'POST',
-      headers: {
-        'accept': 'application/json',
-        'Authorization': 'Bearer ' + bearerToken.value
-      },
-      body: {
-        media_type: 'movie',
-        media_id: 278,
-        watchlist: true
-      }
-    })
-    .then(response => response.json())
-    .then(data => movies.value = data.results)
-  }
+  function addWatchlist(movieId){
+        fetch(`https://api.themoviedb.org/3/account/20931000/watchlist`, {
+            method: 'POST',
+            headers: {
+                accept: 'application/json',
+                'content-type': 'application/json',
+                Authorization: 'Bearer ' + bearerToken.value
+            },
+            body: JSON.stringify({media_type: 'movie', media_id: movieId, watchlist: true})
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response);
+            window.location.reload();
+        })
+        .catch(err => console.error(err));
+    }
 
-
+  // const anyadida = computed(() => {
+  //   return movieId => {
+  //     return movies.value.map(movie => movie.id).includes(movieId);
+  //   }
+  // });
 
 </script>
 
