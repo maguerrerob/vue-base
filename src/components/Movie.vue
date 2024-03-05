@@ -1,11 +1,7 @@
 <template>
-  <div class="container">
-    <div v-if="movie">
-      <h1>Detalles de película {{ movie.title }}</h1>
-    </div>
-    <div class="row" v-else>
-      <p class="alert alert-danger">No se ha encontrado la película</p>
-    </div>
+  <p>{{ $route.params.id }}</p>
+  <div v-if="movie" class="container">
+    <h1>Detalles de película {{ movie.title }}</h1>
   </div>
   
 </template>
@@ -15,9 +11,10 @@
   import { useRoute } from "vue-router";
 
   const bearerToken = ref('eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MWRlMzI4MzZhYTIxNzIyMjk1OTcxMGFhNGJmYTY1NiIsInN1YiI6IjY1YTkxYmJjNTVjMWY0MDEyODg5ZWE1NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.I7FRPNfYWFgq6giDmM43GaiYUaLSYyLM-6m7kJywMd0')
+  
   const apikey = ref("41de32836aa217222959710aa4bfa656")
+  
   const $route = useRoute();
-
   const movie = ref();
   const providersmovie = ref([]);
   const castmovie = ref([]);
@@ -27,81 +24,87 @@
 
   onMounted(async () => {
     try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${$route.params.id}?api_key=`+apikey+`&append_to_response=watch/providers,credits,reviews,videos,recommendations`, {
-          method: 'GET',
-          headers: {
-            accept: 'application/json',
-            Authorization: 'Bearer ' + bearerToken.value
-          }
+      const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MWRlMzI4MzZhYTIxNzIyMjk1OTcxMGFhNGJmYTY1NiIsInN1YiI6IjY1YTkxYmJjNTVjMWY0MDEyODg5ZWE1NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.I7FRPNfYWFgq6giDmM43GaiYUaLSYyLM-6m7kJywMd0'
         }
+      };
+
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${$route.params.id}?api_key=41de32836aa217222959710aa4bfa656&append_to_response=watch/providers,credits,reviews,videos,recommendations`,
+        
+        options
       );
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
       const data = await response.json();
       movie.value = data;
-
-      const trailerVideo = data.videos.results.find(video => video.type === "Trailer");
-
-      if (trailerVideo) {
-          const keytrailer = trailerVideo.key;
-          trailerUrl.value = `https://www.youtube.com/embed/${keytrailer}`;
-          console.log(trailerUrl.value)
-
-      } else {
-          console.error("La película no tiene trailer");
-      }
-
-      reviewsmovie.value = data.reviews.results
-      castmovie.value = data.credits.cast
       providersmovie.value = data['watch/providers'].results.ES;
+      castmovie.value = data.credits.cast
+      reviewsmovie.value = data.reviews.results
       recommendationsmovie.value = data.recommendations.results
+      
+      
+      const trailerVideo = data.videos.results.find(video => video.type === "Trailer");
+          if (trailerVideo) {
+              const keytrailer = trailerVideo.key;
+              trailerUrl.value = `https://www.youtube.com/embed/${keytrailer}`;
+              console.log(trailerUrl.value)
 
-      if (!response.ok) {
-        throw new Error('Hubo un error en la solicitud a la API');
-      }
+          } else {
+              console.error("No se encontró el tráiler de la película.");
+          }
 
     } catch (error) {
-      console.error('Error al recuperar los datos:', error);
+      console.error('There was a problem with the fetch operation:', error);
     }
-  });
+});
 
   onUpdated(async () => {
     try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${$route.params.id}?api_key=`+apikey+`&append_to_response=watch/providers,credits,reviews,videos,recommendations`, {
-          method: 'GET',
-          headers: {
-            accept: 'application/json',
-            Authorization: 'Bearer ' + bearerToken.value
-          }
+      const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MWRlMzI4MzZhYTIxNzIyMjk1OTcxMGFhNGJmYTY1NiIsInN1YiI6IjY1YTkxYmJjNTVjMWY0MDEyODg5ZWE1NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.I7FRPNfYWFgq6giDmM43GaiYUaLSYyLM-6m7kJywMd0'
         }
+      };
+
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${$route.params.id}?api_key=41de32836aa217222959710aa4bfa656&append_to_response=watch/providers,credits,reviews,videos,recommendations`,
+        
+        options
       );
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
       const data = await response.json();
       movie.value = data;
-
-      const trailerVideo = data.videos.results.find(video => video.type === "Trailer");
-
-      if (trailerVideo) {
-          const keytrailer = trailerVideo.key;
-          trailerUrl.value = `https://www.youtube.com/embed/${keytrailer}`;
-          console.log(trailerUrl.value)
-
-      } else {
-          console.error("La película no tiene trailer");
-      }
-
-      reviewsmovie.value = data.reviews.results
-      castmovie.value = data.credits.cast
       providersmovie.value = data['watch/providers'].results.ES;
+      castmovie.value = data.credits.cast
+      reviewsmovie.value = data.reviews.results
       recommendationsmovie.value = data.recommendations.results
+      
+      
+      const trailerVideo = data.videos.results.find(video => video.type === "Trailer");
+          if (trailerVideo) {
+              const keytrailer = trailerVideo.key;
+              trailerUrl.value = `https://www.youtube.com/embed/${keytrailer}`;
+              console.log(trailerUrl.value)
 
-      if (!response.ok) {
-        throw new Error('Hubo un error en la solicitud a la API');
-      }
+          } else {
+              console.error("No se encontró el tráiler de la película.");
+          }
 
     } catch (error) {
-      console.error('Error al recuperar los datos:', error);
+      console.error('There was a problem with the fetch operation:', error);
     }
   });
 
