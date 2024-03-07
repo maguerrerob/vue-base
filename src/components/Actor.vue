@@ -1,0 +1,1 @@
+<!-- Mostrar 4 caracteristicas de actor, sirve cuando pinchas en el actor de la pelicula -->

@@ -13,6 +13,7 @@
           <div class="card-body">
             <h5 class="card-title">{{ movie.title }}</h5>
             <p class="card-text">Fecha de salida: <span class="text-success">{{ movie.release_date }}</span></p>
+            <router-link :to="{ name: 'Movie', params: { id: movie.id }}" class="btn btn-primary me-3 ms-1">Detalles</router-link>
             <button type="button" @click="addWatchlist" class="btn btn-outline-primary" id="mybutton">Añadir a watchlist</button>
           </div>
         </div>

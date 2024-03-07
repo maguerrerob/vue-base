@@ -15,7 +15,10 @@
                         <ul>
                             <li v-for="genreId in movie.genre_ids" :key="genreId">{{ genres.find(genre => genre.id === genreId).name }}</li>
                         </ul>
-                        <button type="button" @click="delWatchlist(movie.id)" class="btn btn-outline-primary mb-3" id="mybutton">Borrar</button><span></span>
+                        <div class="mb-1">
+                            <router-link :to="{ name: 'Movie', params: { id: movie.id }}" class="btn btn-primary me-2">Detalles</router-link>
+                            <button type="button" @click="delWatchlist(movie.id)" class="btn btn-outline-primary" id="mybutton">Borrar</button><span></span>
+                        </div>
                     </div>
                 </div>
                 <span class="position-absolute top-0 start-100 translate-middle d-inline-block rounded-circle bg-success text-white p-1">

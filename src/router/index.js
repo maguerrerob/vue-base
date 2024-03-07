@@ -4,7 +4,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 // Import your components
 import Home from '@/components/Home.vue';
 import Buscador from '@/components/Buscador.vue';
-import Film from '@/components/Film.vue';
 import Watchlist from '@/components/Watchlist.vue';
 import Carrusel from '@/components/Carrusel.vue';
 import Movie from '@/components/Movie.vue';
@@ -23,11 +22,6 @@ const router = createRouter({
       path: '/Buscador',
       name: 'Buscador',
       component: Buscador
-    },
-    {
-      path: '/Film',
-      name: 'Film',
-      component: Film
     },
     {
       path: '/Carrusel',

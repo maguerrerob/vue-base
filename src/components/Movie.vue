@@ -26,23 +26,10 @@
             <div class="mt-auto">
               <button type="button" @click="addWatchlist(movie.id)" class="btn btn-outline-primary mt-3" id="mybutton">Añadir a watchlist</button>
             </div>
-            <div class="ventanaModal ml-2 mt-3">
-              <button @click="openModal" class="btn btn-outline-primary">Trailer</button>
-              
-              <!-- Modal HTML -->
-              <div class="modal fade" v-if="modalVisible">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" @click="closeModal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                      <iframe id="four-seasons-video" width="100%" height="315" :src="trailerUrl" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <button type="button" class="btn btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#trailerModal">
+              Ver Trailer
+            </button>
+
             <!-- <p id="genero">Género</p>
             <ul>
                 <li v-for="genreId in movie.genre_ids" :key="genreId">{{ genres.find(genre => genre.id === genreId).name }}</li>
@@ -57,37 +44,81 @@
     </div>
   </div>
 
-  <div class="container mx-5">
-    <h3>REPARTO</h3>
-
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <div v-if="reviewsmovie">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="reviews" data-bs-toggle="tab" data-bs-target="#review-pane" type="button" role="tab" aria-controls="review-pane" aria-selected="true">Home</button>
-        </li>
-      </div>
-        
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Profile</button>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="review-pane" role="tabpanel" aria-labelledby="review" tabindex="0">
-        <div v-for="review in reviewsmovie.results" :key="review.id" >
-          <p>{{ review.author }}</p>
+  <div class="modal fade" id="trailerModal" tabindex="-1" aria-labelledby="trailerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="trailerModalLabel">Trailer</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <p>jjj</p>
+        <div class="modal-body">
+          <div v-if="trailerUrl" class="text-center">
+            <iframe width="560" height="315" :src="'https://www.youtube.com/embed/' + trailerUrl.key" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
       </div>
-      <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">...</div>
     </div>
   </div>
+
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <div v-if="castmovie">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#castmovie" type="button" role="tab" aria-controls="castmovie" aria-selected="false">Actores</button>
+        </li>
+      </div>
+
+      <div v-if="reviewsmovie">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="reviews" data-bs-toggle="tab" data-bs-target="#review-pane" type="button" role="tab" aria-controls="review-pane" aria-selected="true">Comentarios</button>
+        </li>
+      </div>
+      <div v-if="recommendationsmovie">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Recomendaciones</button>
+        </li>        
+      </div>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="castmovie" role="tabpanel" aria-labelledby="review" tabindex="0">
+        <div class="row d-flex flex-row mb-3">
+          <div v-for="actor in castmovie" :key="actor" class="col-md-3">
+            <div class="card mb-3 mt-3">
+              <img :src="'https://image.tmdb.org/t/p/w1280' + actor.profile_path" alt="algo" class="img-fluid">
+              <div class="card-body">
+                <p style="font-weight: bold;">{{ actor.original_name }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="review-pane" role="tabpanel" aria-labelledby="review" tabindex="0">
+        <div v-for="review in reviewsmovie" :key="review" class="mx-3 mt-2">
+          <p>Usuario: <span style="font-weight: bold;">{{ review.author }}</span></p>
+          <p>{{ review.content }}</p>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+        <div class="row d-flex flex-row mb-3">
+          <div v-for="peli in recommendationsmovie.results" :key="peli.id" class="col-md-3">
+            <div class="card mb-3 mt-3">
+              <img :src="'https://image.tmdb.org/t/p/w1280' + peli.profile_path" alt="algo" class="img-fluid">
+              <div class="card-body">
+                <p style="font-weight: bold;">{{ peli.original_name }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     
 
   
 </template>
 
 <script setup>
-  import { ref, onMounted, onUpdated } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { useRoute } from "vue-router";
 
   const bearerToken = ref('eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MWRlMzI4MzZhYTIxNzIyMjk1OTcxMGFhNGJmYTY1NiIsInN1YiI6IjY1YTkxYmJjNTVjMWY0MDEyODg5ZWE1NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.I7FRPNfYWFgq6giDmM43GaiYUaLSYyLM-6m7kJywMd0')  
@@ -100,8 +131,7 @@
   const reviewsmovie = ref([]);
   const recommendationsmovie = ref([]);
   const genres = ref([]);
-  const trailerUrl = ref('');
-  const modalVisible = ref(false);
+  const trailerUrl = ref();
   
 
   const getMovieDetails = async () => {
@@ -126,13 +156,10 @@
       recommendationsmovie.value = data.recommendations;
       
       
-      const trailerVideo = data.videos.results.find(video => video.type === "Trailer");
-          if (trailerVideo) {
-              const keytrailer = trailerVideo.key;
-              trailerUrl.value = `https://www.youtube.com/embed/${keytrailer}`;
-          } else {
-              console.error("No se encontró el tráiler de la película.");
-          }
+      const trailer = data.videos.results.find(video => video.type === "Trailer");
+      if (trailer) {
+        trailerUrl.value = trailer;
+      }
 
     } catch (error) {
       console.error('Ocurrió un error en la solicitud', error);
@@ -158,9 +185,7 @@
     getGenres()
   })
 
-  onUpdated(() => {
-    getMovieDetails()
-  })
+
 
   function addWatchlist(){
     fetch(`https://api.themoviedb.org/3/account/20931000/watchlist`, {
@@ -179,20 +204,6 @@
     })
     .catch(err => console.error(err));
   }
-
-  const openModal = () => {
-    modalVisible.value = true;
-  };
-
-  const closeModal = () => {
-    modalVisible.value = false;
-    // Detener la reproducción del video al cerrar la modal
-    trailerUrl.value = "";
-    // Restablecer la URL del video cuando se cierra la modal
-    nextTick(() => {
-      trailerUrl.value = "https://www.youtube.com/embed/GRxofEmo3HA";
-    });
-  };
   
   
 
