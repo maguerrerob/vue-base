@@ -82,9 +82,9 @@
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="castmovie" role="tabpanel" aria-labelledby="review" tabindex="0">
         <div class="row d-flex flex-row mb-3">
-          <div v-for="actor in castmovie" :key="actor" class="col-md-3">
-            <div class="card mb-3 mt-3">
-              <img :src="'https://image.tmdb.org/t/p/w1280' + actor.profile_path" alt="algo" class="img-fluid">
+          <div v-for="actor in castmovie" :key="actor" class="col-md-2">
+            <div class="card mb-3 mt-3 cardActor">
+              <img :src="'https://image.tmdb.org/t/p/w1280' + actor.profile_path" alt="imgActor" class="img-fluid">
               <div class="card-body">
                 <p style="font-weight: bold;">{{ actor.original_name }}</p>
               </div>
@@ -100,11 +100,11 @@
       </div>
       <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
         <div class="row d-flex flex-row mb-3">
-          <div v-for="peli in recommendationsmovie.results" :key="peli.id" class="col-md-3">
+          <div v-for="peli in recommendationsmovie" :key="peli" class="col-md-3">
             <div class="card mb-3 mt-3">
-              <img :src="'https://image.tmdb.org/t/p/w1280' + peli.profile_path" alt="algo" class="img-fluid">
+              <img :src="'https://image.tmdb.org/t/p/w1280' + peli.poster_path" alt="algo" class="card-img-top" >
               <div class="card-body">
-                <p style="font-weight: bold;">{{ peli.original_name }}</p>
+                <p style="font-weight: bold;">{{ peli.title }}</p>
               </div>
             </div>
           </div>
@@ -153,7 +153,7 @@
       providersmovie.value = data['watch/providers'].results.ES;
       castmovie.value = data.credits.cast;
       reviewsmovie.value = data.reviews.results;
-      recommendationsmovie.value = data.recommendations;
+      recommendationsmovie.value = data.recommendations.results;
       
       
       const trailer = data.videos.results.find(video => video.type === "Trailer");
@@ -216,5 +216,10 @@
 
   #providersRent{
     width: 70px;
+  }
+
+  .cardActor{
+    width: 300px;
+    height: auto;
   }
 </style>

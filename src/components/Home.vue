@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-3" v-for="movie in movies" :key="movie.id">
         <div class="card mb-3">
-          <a href="" class="card-img-top ms-0 img-fluid"><img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" class="col-3 card-img-top img-fluid"></a>
+          <img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" class="col-3 card-img-top img-fluid">
           <span class="position-absolute top-0 start-100 translate-middle d-inline-block rounded-circle bg-success text-white p-1" id="point">
             {{ (movie.vote_average).toFixed(2) }}
             <span class="visually-hidden">unread messages</span>
